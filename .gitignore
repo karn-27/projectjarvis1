@@ -1,0 +1,23 @@
+# Ignore Windows system files
+Application Data/
+Cookies/
+Documents/
+Local Settings/
+My Documents/
+NetHood/
+PrintHood/
+Recent/
+SendTo/
+Start Menu/
+Templates/
+OneDrive/
+
+# Ignore IDE and cache files
+.vscode/
+__pycache__/
+*.log
+*.tmp
+
+# Ignore hidden files
+.DS_Store
+Thumbs.db
