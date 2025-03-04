@@ -3,3 +3,6 @@ openai
 requests
 speechrecognition
 pyttsx3
+speechrecognition
+pyaudio
+gtts
