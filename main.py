@@ -1,4 +1,7 @@
-from flask import Flask
+from flask import Flask, request, jsonify
+import speech_recognition as sr
+from gtts import gTTS
+import os
 
 app = Flask(__name__)
 
@@ -6,14 +9,21 @@ app = Flask(__name__)
 def home():
     return "Hello, I am Jarvis AI!"
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+@app.route("/speak", methods=["POST"])
+def speak():
+    data = request.get_json()
+    text = data.get("text", "")
 
-import speech_recognition as sr
-from gtts import gTTS
-import os
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
 
-def recognize_speech():
+    tts = gTTS(text=text, lang="en")
+    tts.save("static/response.mp3")  # Store the file in static folder
+    
+    return jsonify({"message": "Speech generated!", "file": "static/response.mp3"})
+
+@app.route("/listen", methods=["GET"])
+def listen():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
@@ -23,21 +33,11 @@ def recognize_speech():
     try:
         text = recognizer.recognize_google(audio)
         print(f"User said: {text}")
-        return text
+        return jsonify({"text": text})
     except sr.UnknownValueError:
-        print("Sorry, I could not understand the audio.")
-        return None
+        return jsonify({"error": "Sorry, I could not understand the audio."}), 400
     except sr.RequestError:
-        print("Error: Could not request results. Check your internet connection.")
-        return None
-
-def speak(text):
-    tts = gTTS(text=text, lang='en')
-    tts.save("response.mp3")
-    os.system("start response.mp3")  # Windows ke liye, Linux/mac ke liye 'mpg321 response.mp3'
+        return jsonify({"error": "Could not request results. Check your internet connection."}), 500
 
 if __name__ == "__main__":
-    command = recognize_speech()
-    if command:
-        speak(f"You said: {command}")
-
+    app.run(host="0.0.0.0", port=8000)
