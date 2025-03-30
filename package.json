@@ -1,0 +1,18 @@
+{
+  "name": "projectjarvis1",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "framer-motion": "^12.6.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

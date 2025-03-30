@@ -1,10 +1,13 @@
 services:
   - type: web
-    name: jarvis-ai
-    env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn -w 1 -b 0.0.0.0:10000 main:app"
+    name: projectjarvis1
+    runtime: python
+    region: oregon
+    plan: free
     envVars:
-      - key: PORT
-        value: 10000
- 
+      - key: PYTHONUNBUFFERED
+        value: "1"
+    buildCommand: |
+      apt-get update && apt-get install -y portaudio19-dev
+      pip install --no-cache-dir -r requirements.txt
+    startCommand: gunicorn main:app --bind 0.0.0.0:10000
