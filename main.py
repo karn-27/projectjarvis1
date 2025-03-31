@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS  # ✅ Import CORS
 import os
 from gtts import gTTS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # ✅ Allow all origins
+CORS(app)  # ✅ Yeh line CORS ko allow karegi for all routes
 
 # ✅ Ensure "static" directory exists
 if not os.path.exists("static"):
@@ -37,4 +37,4 @@ def serve_audio(filename):
     return send_from_directory("static", filename)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8000, debug=True)  # ✅ Debug Mode ON
